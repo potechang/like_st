@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
-    <title>ポテチャグjoy</title>
+    <title>BMS現代発狂譜面寄せ集め</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,7 @@
     <header class="mb-3">
         <nav class="navbar navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">ポテチャグjoy</span>
+                <span class="navbar-brand mb-0 h1">BMS現代発狂譜面寄せ集め</span>
             </div>
         </nav>
     </header>
@@ -27,12 +28,10 @@
     <div class="container">
 
         <div class="alert alert-success mb-3" role="alert">
-            <p>BMS自作差分まとめ (obj:potechang 等)</p>
-            <p>意図的にキー音を加えたりしている差分が多いので苦手な方は注意</p>
-            <p>何かあればTwitterの方に連絡ください:<a href="https://twitter.com/pt10_">@pt10_</a> </p>
+            <p>2024/10頃からのst0↑相当の寄せ集め</p>
+            <p>dy(sub)くらい(主観)での正統派系譜面を基準としています。</p>
             <hr>
-            <p class="mb-0">sl0~6=pt-2 sl7~12=pt-1 / pt0からはst基準 </p>
-            <p class="mb-0"><a href="https://drive.google.com/drive/folders/1bMsulUo7aR5hfAYM8J9fNxfVJJ6DYBKy?usp=sharing">差分と段位(googleドライブ)</a></p>
+            <p class="mb-0">確認していないのでリンク切れがあるかも</p>
         </div>
 
 
@@ -56,48 +55,40 @@
                 var count = 0;
                 var obj = $("#table_int");
 
-
                 obj.html("");
-                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>BPM</th><th>Notes</th><th>T/N</th><th>本体</th><th>差分</th><th>譜面</th><th>Comment</th></tr></thead><tbody>")
+                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>本体</th><th>差分</th><th>view</th><th>Comment</th></tr></thead><tbody>")
                     .appendTo(obj);
                 var obj_sep = null;
-                
                 for (var i = 0; i < info.length; i++) {
                     if (x != info[i].level) {
-                        obj_sep = $("<tr style='text-align:center' id='" + mark + info[i].level +
+                        if (obj_sep != null) {
+                            obj_sep.html("<td colspan='7'>" + "<b>" + mark + x + " (" + count +
+                                "譜面)</b></td>");
+                        }
+                        obj_sep = $("<tr class='table-dark' style='text-align:center' id='" + mark + info[i].level +
                             "'></tr>");
                         obj_sep.appendTo(obj);
                         count = 0;
                         x = info[i].level;
                     }
+
                     var str = $("<tr></tr>");
 
-
                     // Level
-                    $("<td width='5%'>" + mark + x + "</td>").appendTo(str);
+                    $("<td width='8%'>" + mark + x + "</td>").appendTo(str);
 
                     // Title
                     $("<td width='25%'>" +
-                        "<a href='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + info[
-                            i]
-                        .md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
+                        "<a href='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + info[i].md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
 
                     // Artist
                     $("<td width='20%'>" + info[i].artist + "</td>").appendTo(str);
 
-                    // BPM
-                    $("<td width='5%'>" + info[i].BPM+ "</td>").appendTo(str);
-
-                    // Notes
-                    $("<td width='5%'>" + info[i].Notes + "</td>").appendTo(str);
-
-                    // T/N比
-                    $("<td width='5%'>" + info[i].TN + "</td>").appendTo(str);
-
+                  
                     // 本体DL
                     $("<td width='5%'>" +
                         "<a href='" + info[i].url + "' target='_blank'>" + "本体" + "</a></td>").appendTo(str);
-                    
+
                     // 差分DL
                     $("<td width='5%'>" +
                     (info[i].url_diff && info[i].url_diff.trim() !== ""
@@ -106,21 +97,25 @@
                     "</td>"
                     ).appendTo(str);
 
-                    
-                    // Chartview
+                     // View
                     $("<td width='5%'>" +
                         "<a href='https://bms-score-viewer.pages.dev/view?md5=" + info[
                             i]
                         .md5 + "' target='_blank'>" + "view" + "</a></td>").appendTo(str);
                     
                     // Comment
-                    $("<td width='20%'>" + info[i].comment + "</td>").appendTo(str);
+                    $("<td width='32%'>" + info[i].comment + "</td>").appendTo(str);
                     str.appendTo(obj);
                     count++;
 
+
                 }
                 $("</tbody>").appendTo(obj);
-                
+
+                if (obj_sep != null) {
+                    obj_sep.html("<td class='table-dark' style='text-align:center' colspan='7'>" + "<b>" + mark + x +
+                        " (" + count + "譜面)</b></td>");
+                }
             }
         </script>
     </div>
