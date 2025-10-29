@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -16,59 +17,57 @@
 
     <!-- コメントツールチップ用CSS -->
     <style>
-.comment-tooltip {
-    position: relative;
-    cursor: pointer;
-    color: #007bff;
-    font-weight: 500;
-}
-
-/* 吹き出し本体 */
-.comment-tooltip::after {
-    content: attr(data-comment);
-    position: absolute;
-    bottom: 140%;                /* 吹き出しを少し上に */
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(50, 50, 50, 0.95);
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 15px;
-    line-height: 1.6;
-    white-space: normal;
-    min-width: 240px;
-    max-width: 550px;
-    text-align: left;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease-in-out;
-    z-index: 1000;
-}
-
-/* 下に出る三角形（矢印） */
-.comment-tooltip::before {
-    content: "";
-    position: absolute;
-    bottom: 130%;                /* 吹き出しの真下に配置 */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 8px;           /* 三角形サイズ */
-    border-style: solid;
-    border-color: rgba(50, 50, 50, 0.95) transparent transparent transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease-in-out;
-    z-index: 999;
-}
-
-/* ホバー時に両方を表示 */
-.comment-tooltip:hover::after,
-.comment-tooltip:hover::before {
-    opacity: 1;
-    visibility: visible;
-}
+    /* 💬 コメントアイコン（コンパクト版） */
+    .comment-tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        border: 1px solid #555;
+        border-radius: 50%;
+        padding: 2px 4px;
+        background-color: #fff;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+        vertical-align: middle;
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .comment-tooltip:hover {
+        background-color: #333;
+        color: #fff;
+        border-color: #333;
+    }
+    
+    /* 🗨 ツールチップ（本文） */
+    .comment-tooltip::after {
+        content: attr(data-comment);
+        position: absolute;
+        bottom: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(50, 50, 50, 0.95);
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 15px;
+        line-height: 1.6;
+        white-space: normal;
+        min-width: 250px;
+        max-width: 800px; /* 拡大 */
+        text-align: left;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease-in-out;
+        z-index: 1000;
+    }
+    
+    /* ツールチップを表示 */
+    .comment-tooltip:hover::after {
+        opacity: 1;
+        visibility: visible;
+    }
     </style>
 </head>
 
@@ -112,7 +111,7 @@
                 var obj = $("#table_int");
 
                 obj.html("");
-                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>本体</th><th>差分</th><th>view</th><th>Comment</th></tr></thead><tbody>")
+                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>本体</th><th>差分</th><th>view</th><th>💬</th></tr></thead><tbody>")
                     .appendTo(obj);
                 var obj_sep = null;
                 for (var i = 0; i < info.length; i++) {
@@ -134,11 +133,11 @@
                     $("<td width='5%'>" + mark + x + "</td>").appendTo(str);
 
                     // Title
-                    $("<td width='35%'>" +
+                    $("<td width='40%'>" +
                         "<a href='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + info[i].md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
 
                     // Artist
-                    $("<td width='30%'>" + info[i].artist + "</td>").appendTo(str);
+                    $("<td width='35%'>" + info[i].artist + "</td>").appendTo(str);
 
                   
                     // 本体DL
@@ -154,19 +153,19 @@
                     ).appendTo(str);
 
                      // View
-                    $("<td width='5%'>" +
+                    $("<td width='7%'>" +
                         "<a href='https://bms-score-viewer.pages.dev/view?md5=" + info[
                             i]
                         .md5 + "' target='_blank'>" + "view" + "</a></td>").appendTo(str);
 
                     //コメント
-                    if (info[i].comment && info[i].comment.trim() !== "") {
-                      $("<td width='15%'>" +
-                        "<span class='comment-tooltip' data-comment='" + info[i].comment.replace(/"/g, '&quot;') + "'>コメント</span>" +
-                            "</td>").appendTo(str);
-                                } else {
-                                  $("<td width='15%'></td>").appendTo(str);
-                                    }
+                     if (info[i].comment && info[i].comment.trim() !== "") {
+                      $("<td width='3%'>")
+                        .html("<div class='comment-tooltip' data-comment='" + info[i].comment + "'>💬</div>")
+                        .appendTo(str);
+                    } else {
+                      $("<td width='3%'></td>").appendTo(str);
+                    }
                                     str.appendTo(obj);
                                         count++;
 
